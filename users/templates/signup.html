@@ -1,0 +1,19 @@
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<head>
+    <body>
+        <h3>signup page</h3>
+        <table border="1">
+        <form method="POST">
+            {% crispy form %}
+            <!-- {% csrf_token %}
+            {{ form.as_p }}
+            <button type ="submit">Register</button>
+            <br><br>
+            <a href = "{% url 'index' %}">Home</a> -->
+        </form>   
+        </table>
+    </body>
+</head>
+</html>
