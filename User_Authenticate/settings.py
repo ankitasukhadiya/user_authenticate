@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r(w_sp@-s)5(7#5^2gr_0)(mu7vaq4r$+90v_a*hl9_2m39-cw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -53,12 +53,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'User_Authenticate.urls'
 
-CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'users/templates/' )],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +70,13 @@ TEMPLATES = [
         },
     },
 ]
+STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+
+STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 WSGI_APPLICATION = 'User_Authenticate.wsgi.application'
 
@@ -80,7 +87,7 @@ WSGI_APPLICATION = 'User_Authenticate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'database.sqlite3'),
     }
 }
 
@@ -102,8 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -117,11 +122,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
