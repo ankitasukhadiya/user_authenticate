@@ -1,18 +1,24 @@
+from urllib import request
+from django import forms
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import TemplateView,CreateView,View
+from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import PasswordChangeView
 from users.forms import SignUpForm
 from django.contrib.auth import get_user_model
-from django.conf import settings
+from User_Authenticate.settings import LOGOUT_REDIRECT_URL,AUTH_USER_MODEL
 from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.shortcuts import HttpResponseRedirect
+from django.contrib.auth import logout
+from django.shortcuts import HttpResponseRedirect,redirect
+from .forms import AuthenticationForm, PasswordChangingForm
+from django.contrib import messages
 
-user = settings.AUTH_USER_MODEL
-
+user = AUTH_USER_MODEL
 User = get_user_model()
 
 class indexview(TemplateView):
@@ -21,29 +27,44 @@ class indexview(TemplateView):
 class home(TemplateView):
     template_name = 'home.html'
 
-class base(TemplateView):
-    template_name = 'base.html'    
-
 class SignUpView(CreateView):
+    template_name = 'signup.html'
     form_class = SignUpForm
     success_url = reverse_lazy('users:login')
-    template_name = 'signup.html'
-    success_message = "Your profile was created successfully"
+    
+    def form_valid(self,form):
+        success_url = super().form_valid(form)
+        self.object = form.save()
+        form.save()  
+        return success_url 
+     
+class LoginView(BaseLoginView):
+    print("helooooo")
+    template_name = 'registration/login.html' 
+    form_class = AuthenticationForm
+    print("-=-==-=-1=--===-")
+    # print(request.method,"-=-==-=-1=--===-")
+    def form_valid(self,form):
+        print(self.request.method,"-=-==-=-1=--===-")
+        user = form.get_user()
+        self.request.session["pk"] = user.pk
+        print(user,"-=-=-=-=-=-=-=")
+        return HttpResponseRedirect(reverse_lazy("users:home"))
+   
+class LogoutView(View):
+    print("-=-=-=-=-=-1logot56925692569256925")
+    def get(self, request):
+        print("=-==-=-=-8---")
+        logout(request)
+        return redirect(LOGOUT_REDIRECT_URL)    
 
-class LoginView(View):
-    template_name = 'login.html'
-    def post(self, request):
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            message = 'Login success!'
-            return HttpResponseRedirect('/home')
-        else:
-            message = 'Login failed!'
-            return HttpResponseRedirect('/login')
-        # return render(request, self.template_name, context={'form': form, 'message': message}) 
+class PasswordChange(PasswordChangeView):
+    template_name = 'registration/change-password.html'
+    form_class = PasswordChangingForm
+    success_url = reverse_lazy('users:password_success')
+
+def password_success(request):
+    return render(request,"registration/password_success.html",{})
 
   
 

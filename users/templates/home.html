@@ -1,6 +1,12 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}<br>
 <html>
 <head>
 </head>
-<body>Most Welcome Page
+<body>Home Page
+    {{request.user}}
 </body>
 </html>
+{% endblock %}
