@@ -11,11 +11,11 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import PasswordChangeView
 from users.forms import SignUpForm
 from django.contrib.auth import get_user_model
-from User_Authenticate.settings import LOGOUT_REDIRECT_URL,AUTH_USER_MODEL
+from User_Authenticate.settings import AUTH_USER_MODEL
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout as Django_logout
 from django.shortcuts import HttpResponseRedirect,redirect
-from .forms import AuthenticationForm, PasswordChangingForm
+from .forms import AuthenticationForm, PasswordChangingForm,p
 
 user = AUTH_USER_MODEL
 User = get_user_model()
@@ -23,7 +23,7 @@ User = get_user_model()
 class indexview(TemplateView):
     template_name = 'index.html'
    
-class home(TemplateView):
+class home(TemplateView): 
     template_name = 'home.html'
     def get_context_data(self):
         user_id = self.request.session['pk']
@@ -33,7 +33,7 @@ class home(TemplateView):
             'user':user,
         }
         return context
-
+        
 class SignUpView(CreateView):
     template_name = 'signup.html'
     form_class = SignUpForm
@@ -63,8 +63,10 @@ class LogoutView(View):
         return HttpResponseRedirect(reverse_lazy("users:login"))   
 
 class PasswordView(PasswordChangeView):
+    print("heloooooo 888888888")
+    template_name = 'registration/passwordchange.html'
     form_class = PasswordChangingForm   
-    success_url = reverse_lazy('users:home')     
+    success_url = reverse_lazy('users:password_success')     
 
 def password_success(request):
     return render(request,"registration/password_success.html",{})    

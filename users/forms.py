@@ -39,7 +39,7 @@ class PasswordChangingForm(PasswordChangeForm):
             "cancel",
             "Cancel",
             css_class="btn",
-            onclick=f"javascript:location.href = '/users/';",
+            onclick=f"javascript:location.href = '/users/registration/';",
         )
     )
     helper.form_method = "POST"
