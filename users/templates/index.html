@@ -37,13 +37,23 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 <body>
 <div class="navbar">
+  {% if user.is_authenticated %}
+
     <a href="{{request.META.HTTP_REFERER}}">Go back</a>
-    <a href="{% url 'users:home' %}"><i class="fa fa-fw fa-home"></i> LogOut</a> 
+    <a href="{% url 'users:logout' %}"><i class="fa fa-fw fa-home"></i> LogOut</a>
+
+  {% else %} 
+
     <a class = 'active' href="{% url 'users:home' %}"><i class="fa fa-fw fa-home"></i> Home</a> 
     <a href="{% url 'users:signup' %}"><i class="fa fa-fw fa-search"></i> SignUp</a> 
     <a href="{% url 'users:login' %}"><i class="fa fa-fw fa-user"></i> Login</a>
-    <a href="{% url 'users:change-password' %}"><i class="fa fa-fw fa-user"></i> Change Password</a>
+  
+  {% endif %}
 </div>
+{% if user.is_authenticated %}
+    {{ user.email }}
+{% endif %}
+    
 {% block content %}    
 {% endblock %}
 
