@@ -41,11 +41,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
     <a class = 'active' href="{% url 'users:home' %}"><i class="fa fa-fw fa-home"></i> Home</a> 
     <a href="{{request.META.HTTP_REFERER}}">Go back</a>
     <a href="{% url 'users:logout' %}"><i class="fa fa-fw fa-home"></i> LogOut</a>
+    <a href="{% url 'users:change_password' %}"><i class="fa fa-fw fa-search"></i> Change Password</a> 
     
   {% else %} 
 
     <a href="{% url 'users:signup' %}"><i class="fa fa-fw fa-search"></i> SignUp</a> 
     <a href="{% url 'users:login' %}"><i class="fa fa-fw fa-user"></i> Login</a>
+    
 
   {% endif %}
 </div>

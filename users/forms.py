@@ -31,16 +31,24 @@ class AuthenticationForm(BaseAuthenticationForm):
     )
     helper.form_method = "POST" 
 
-class PasswordChangingForm(PasswordChangeForm):
+class ChangePasswordForm(PasswordChangeForm):
     helper = FormHelper()
-    helper.add_input(Submit("change password", "Change Password",css_class = 'btn'))
+    helper.add_input(Submit("submit", "Change Password",css_class = 'btn'))
     helper.add_input(
         Button(
             "cancel",
             "Cancel",
             css_class="btn",
-            onclick=f"javascript:location.href = '/users/registration/';",
+            onclick=f"javascript:location.href = '/users/';",
         )
     )
     helper.form_method = "POST"
 
+# class PasswordChangingForm(PasswordChangeForm):
+#     old_password = forms.CharField(widget =forms.PasswordInput(attrs={'class':'form-control','type':'password'}))
+#     new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}))
+#     new_password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}) )
+
+#     class Meta:
+#         model = User
+#         fields = ('old_password','new_password1','new_password2')
