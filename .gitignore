@@ -2,4 +2,11 @@
 .env
 venv/
 theme/
+static/
 
+#DS store
+.DS_Store
+
+#dbsqlite
+db.sqlite3
+database.sqlite3
