@@ -17,3 +17,6 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
+
+class Image(models.Model):
+    image = models.ImageField(null=True,upload_to="images/")        

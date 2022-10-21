@@ -1,5 +1,3 @@
-from urllib import request
-from django import forms
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -10,7 +8,7 @@ from .forms import ChangePasswordForm
 from django.views.generic import TemplateView,CreateView,View
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import PasswordChangeView
-from users.forms import SignUpForm
+from users.forms import SignUpForm,ImageForm
 from django.contrib.auth import get_user_model
 from User_Authenticate.settings import AUTH_USER_MODEL
 from django.contrib.auth import authenticate
@@ -18,6 +16,7 @@ from django.contrib.auth import logout as Django_logout
 from django.shortcuts import HttpResponseRedirect,redirect
 from .forms import AuthenticationForm
 from django.contrib.auth import update_session_auth_hash
+from .models import Image
 user = AUTH_USER_MODEL
 User = get_user_model()
 
@@ -67,7 +66,6 @@ class LogoutView(View):
         return HttpResponseRedirect(reverse_lazy("users:login"))   
 
 class ChangePasswordView(PasswordChangeView):
-    print("hellooooo")
     template_name = "registration/change_password.html"
     form_class = ChangePasswordForm
     # success_url = reverse_lazy('users:password_success')
@@ -83,8 +81,34 @@ class ChangePasswordView(PasswordChangeView):
 
 class password_success(TemplateView):
     template_name = "registration/password_success.html"
-      
 
+class ImageView(CreateView):
+    form_class = ImageForm
+    model = Image
+    print(form_class,"///////")
+    template_name = 'registration/images.html'
+    print(template_name,"-=-=-==-=-=")
+    # success_url = reverse_lazy('users:login')  
+    
+    def form_valid(self,form):
+        print("hiiiiiii----")
+        # success_url = super().form_valid(form)
+        self.object = form.save()
+        form.save() 
+        print(form,"-=-=-=-=form----") 
+        return HttpResponseRedirect(reverse_lazy("users:login")) 
+    # def get_context_data(self,request):
+    #     image = Image.objects.get('image')
+    #     form = ImageForm(request.POST,request.FILES)
+    #     if form.is_valid():
+    #         form.save()
+    #         context = {
+    #             'image':image,
+    #         }    
+    #     return HttpResponseRedirect(reverse_lazy('login'),context)
+
+   
+    
 
 
    

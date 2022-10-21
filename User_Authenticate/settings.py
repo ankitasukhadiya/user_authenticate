@@ -124,6 +124,10 @@ LOGIN_REDIRECT_URL = 'users:home'
 
 LOGOUT_REDIRECT_URL = 'users:login'
 
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 

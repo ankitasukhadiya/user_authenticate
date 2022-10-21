@@ -5,7 +5,9 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit,Button
 from django.contrib.auth.forms import \
     AuthenticationForm as BaseAuthenticationForm
-from .models import User
+from django.forms import ModelForm
+from .models import User,Image
+# from django.forms import ModelForm
 
 class SignUpForm(UserCreationForm):
     helper = FormHelper()
@@ -44,11 +46,19 @@ class ChangePasswordForm(PasswordChangeForm):
     )
     helper.form_method = "POST"
 
-# class PasswordChangingForm(PasswordChangeForm):
-#     old_password = forms.CharField(widget =forms.PasswordInput(attrs={'class':'form-control','type':'password'}))
-#     new_password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}))
-#     new_password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}) )
+class ImageForm(forms.ModelForm):
+    helper = FormHelper()
+    helper.add_input(Submit("submit", "Submit",css_class = 'btn'))
+    helper.add_input(
+        Button(
+            "cancel",
+            "Cancel",
+            css_class="btn",
+            onclick=f"javascript:location.href = '/users/';",
+        )
+    )
+    helper.form_method = "POST"
 
-#     class Meta:
-#         model = User
-#         fields = ('old_password','new_password1','new_password2')
+    class Meta:
+        model=Image
+        fields = ['image']
